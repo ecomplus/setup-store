@@ -32,9 +32,10 @@ class GitGateway {
       }
       const data = {
         uuid: uuid(),
+        store_id: payload.gotrue.store_id,
         config: {
           jwt: {
-            secret: process.env.STOREFRONT_CI_OPERATOR_TOKEN
+            secret: process.env.STOREFRONT_CI_JWT_TOKEN
           },
           github: {
             access_token: process.env.STOREFRONT_CI_GITHUB_TOKEN,

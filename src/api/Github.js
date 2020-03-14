@@ -59,7 +59,7 @@ class GitHub {
           path: 'template/public/admin/config.json',
           content: Buffer.from(JSON.stringify(config, null, 2)).toString('base64'),
         }).then(res => resolve(res)).catch(err => reject(err))
-      }, 1000)
+      }, 10000)
     })
 
   }

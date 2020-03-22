@@ -9,4 +9,3 @@ const DeploySchema = Joi.object().keys({
 })
 
 module.exports = DeploySchema
-

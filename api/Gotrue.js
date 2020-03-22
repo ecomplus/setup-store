@@ -1,31 +1,32 @@
+const logger = require('../config/winston')
+
 const qs = require('qs')
 const axios = require('axios').create({
   baseURL: process.env.STOREFRONT_CI_GOTRUE_URL,
-  timeout: 1000,
+  timeout: 1000
 })
 
 class GoTrue {
-  constructor() {
+  constructor () {
     this.username = process.env.STOREFRONT_CI_GOTRUE_USERNAME
     this.password = process.env.STOREFRONT_CI_GOTRUE_PASSWORD
   }
 
-  deploy(payload) {
+  deploy (payload) {
     return new Promise((resolve, reject) => {
       this.login()
         .then(() => this.createUser(payload))
         .then(({ data }) => this.updateRule(payload, data))
         .then(({ data }) => resolve(data))
-        .catch(({ response }) => reject({
-          step: 'gotrue',
-          status: response? response.status : '',
-          error: response? response.statusText: '',
-          details: response? response.data.msg: ''
-        }))
+        .catch(({ response }) => {
+          const error = { step: 'gotrue', status: response.status, error: response.data }
+          logger.error(`${JSON.stringify(error)}`)
+          return reject(error)
+        })
     })
   }
 
-  login() {
+  login () {
     return new Promise((resolve, reject) => {
       try {
         const headers = {
@@ -45,11 +46,11 @@ class GoTrue {
     })
   }
 
-  updateHeadersWithToken({ access_token }) {
-    axios.defaults.headers['Authorization'] = `Bearer ${access_token}`
+  updateHeadersWithToken ({ access_token }) {
+    axios.defaults.headers.Authorization = `Bearer ${access_token}`
   }
 
-  createUser(payload) {
+  createUser (payload) {
     return new Promise((resolve, reject) => {
       const { gotrue } = payload
       axios.post('/admin/users', { ...gotrue, confirm: true })
@@ -58,12 +59,12 @@ class GoTrue {
     })
   }
 
-  updateRule(payload, gotrueUser) {
+  updateRule (payload, gotrueUser) {
     return new Promise((resolve, reject) => {
       const storeId = payload.gotrue.store_id ? payload.gotrue.store_id : payload.settings.store_id
       const data = {
-        'app_metadata': {
-          'roles': [
+        app_metadata: {
+          roles: [
             `s${storeId}`
           ]
         }

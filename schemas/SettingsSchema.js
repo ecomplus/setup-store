@@ -4,5 +4,4 @@ const SettingsSchema = Joi.object().keys({
 
 })
 
-
 module.exports = SettingsSchema

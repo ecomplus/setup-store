@@ -7,5 +7,4 @@ const GotrueSchema = Joi.object().keys({
   password: Joi.string().required()
 })
 
-
 module.exports = GotrueSchema

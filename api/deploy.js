@@ -19,7 +19,7 @@ const deploy = (req, res) => {
       })
     })
     .catch(error => {
-      res.status(422).json(error)
+      res.status(error.status || 500).json(error)
     })
 }
 

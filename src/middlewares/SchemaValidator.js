@@ -2,7 +2,6 @@ const _ = require('lodash')
 const Joi = require('joi')
 const Schemas = require('../schemas')
 
-
 module.exports = (useJoiError = false) => {
   const _useJoiError = _.isBoolean(useJoiError) && useJoiError
   const _supportedMethods = ['post']
@@ -40,7 +39,6 @@ module.exports = (useJoiError = false) => {
             }
 
             res.status(422).json(_useJoiError ? JoiError : customError)
-
           } else {
             req.body = data
             next()

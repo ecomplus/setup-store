@@ -7,26 +7,31 @@ const axios = require('axios').create({
 })
 
 class GoTrue {
-  constructor () {
+  constructor() {
     this.username = process.env.STOREFRONT_CI_GOTRUE_USERNAME
     this.password = process.env.STOREFRONT_CI_GOTRUE_PASSWORD
   }
 
-  deploy (payload) {
+  deploy(payload) {
     return new Promise((resolve, reject) => {
       this.login()
         .then(() => this.createUser(payload))
         .then(({ data }) => this.updateRule(payload, data))
         .then(({ data }) => resolve(data))
-        .catch(({ response }) => {
-          const error = { step: 'gotrue', status: response.status, error: response.data }
+        .catch(error => {
+          if (error.response) {
+            const { response } = error
+            const err = { step: 'gotrue', status: response.status, error: response.data }
+            logger.error(`${JSON.stringify(error)}`)
+            return reject(err)
+          }
           logger.error(`${JSON.stringify(error)}`)
           return reject(error)
         })
     })
   }
 
-  login () {
+  login() {
     return new Promise((resolve, reject) => {
       try {
         const headers = {
@@ -46,27 +51,49 @@ class GoTrue {
     })
   }
 
-  updateHeadersWithToken ({ access_token }) {
+  updateHeadersWithToken({ access_token }) {
     axios.defaults.headers.Authorization = `Bearer ${access_token}`
   }
 
-  createUser (payload) {
+  getUsers() {
     return new Promise((resolve, reject) => {
-      const { gotrue } = payload
-      axios.post('/admin/users', { ...gotrue, confirm: true })
+      axios.get('/admin/users')
         .then(result => resolve(result))
         .catch(error => reject(error))
     })
   }
 
-  updateRule (payload, gotrueUser) {
+  getUser(email, users) {
+    return users.find(user => user.email == email)
+  }
+
+  createUser(payload) {
+    return new Promise((resolve, reject) => {
+      const { gotrue } = payload
+      this.getUsers()
+        .then(({ data }) => {
+          const user = this.getUser(gotrue.email, data.users)
+          if (user) {
+            user.password = gotrue.password
+            return resolve({ data: user })
+          }
+          return axios.post('/admin/users', { ...gotrue, confirm: true })
+            .then(result => resolve(result))
+            .catch(error => reject(error))
+        })
+        .catch(error => reject(error))
+    })
+  }
+
+  updateRule(payload, gotrueUser) {
     return new Promise((resolve, reject) => {
       const storeId = payload.gotrue.store_id ? payload.gotrue.store_id : payload.settings.store_id
+      const roles = gotrueUser.app_metadata.roles ? gotrueUser.app_metadata.roles : []
+      const newRoles = Array.from(new Set([`s${storeId}`, ...roles]))
       const data = {
+        password: gotrueUser.password,
         app_metadata: {
-          roles: [
-            `s${storeId}`
-          ]
+          roles: newRoles
         }
       }
       axios.put(`admin/users/${gotrueUser.id}`, data)

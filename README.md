@@ -1,5 +1,8 @@
 # Storefront CI
 
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 Automated tasks for default Storefront setup and first deploy
 
 ## Features
@@ -11,9 +14,6 @@ Automated tasks for default Storefront setup and first deploy
   - Creates the website on Netlify
 
 ## Development
-
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 Fork/Clone this repository and install dependencies
 

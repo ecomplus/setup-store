@@ -31,13 +31,11 @@ npm start
 
 After starting storefront-ci, it will be online at http://127.0.0.1:4000
 
-To define cutom port, see [enviroments](#)
+## Environment
 
-## Enviroments
+It's necessary to configure environments to good work this service.
 
-It's necessary to configure enviroments to good work this service.
-
-It's enviroments to be stay in `.env` file, see enviroment options
+It's environments to be stay in `.env` file, see environment options
 
 ```bash
   STOREFRONT_CI_PORT=4000 # To make a custom port
@@ -70,7 +68,7 @@ STOREFRONT_CI_JWT_TOKEN=XXXXXXX
 ```bash
 STOREFRONT_CI_OPERATOR_TOKEN=xxxxxxxxxx
 ```
-> It's operator token with permission to create an instance in Git Gateway. IT's to be the same configured in `GITGATEWAY_OPERATOR_TOKEN` on Git Gateway enviroments
+> It's operator token with permission to create an instance in Git Gateway. IT's to be the same configured in `GITGATEWAY_OPERATOR_TOKEN` on Git Gateway environments
 
 ```bash
 STOREFRONT_CI_GITHUB_TOKEN=xxxxxxxxxx

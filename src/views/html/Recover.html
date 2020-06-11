@@ -1,0 +1,19 @@
+<div class="recover">
+  <div class="row">
+    <div class="col">
+      <form v-on:submit.prevent="updatePassword">
+        <div class="form-group">
+          <label for="new-password">{{i19newPassword}}: </label>
+          <input class="form-control" id="new-password" v-model="newPassword" type="password" required />
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">{{i19confirmPassword}}</button>
+        <div class="alert alert-danger" role="alert" v-if="error">
+          {{error}}
+        </div>
+        <div class="alert alert-success" role="alert" v-if="passwordUpdated">
+          {{i19passwordChangedSuccessfully}}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

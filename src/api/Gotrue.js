@@ -1,4 +1,4 @@
-const logger = require('../config/winston')
+const logger = require('console-files')
 
 const qs = require('qs')
 const axios = require('axios').create({
@@ -22,10 +22,10 @@ class GoTrue {
           if (error.response) {
             const { response } = error
             const err = { step: 'gotrue', status: response.status, error: response.data }
-            logger.error(`${JSON.stringify(error)}`)
+            logger.error(error)
             return reject(err)
           }
-          logger.error(`${JSON.stringify(error)}`)
+          logger.error(error)
           return reject(error)
         })
     })

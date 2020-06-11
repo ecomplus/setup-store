@@ -1,4 +1,4 @@
-const logger = require('../config/winston')
+const logger = require('console-files')
 const axios = require('axios').create({
   baseURL: process.env.STOREFRONT_CI_NETLIFY_URL,
   headers: {
@@ -14,7 +14,7 @@ class Netlify {
         .then(({ data }) => resolve(data))
         .catch(({ response }) => {
           const error = { step: 'netlify', status: response.status, error: response.data }
-          logger.error(`${JSON.stringify(error)}`)
+          logger.error(error)
           return reject(error)
         })
     })
@@ -22,7 +22,7 @@ class Netlify {
 
   createSite (payload, retry = false) {
     return new Promise((resolve, reject) => {
-      const name = retry ? `${payload.name}-${Math.random() * (9999 - 1000) + 1000}` : payload.name
+      const name = retry ? `${payload.name}-${Math.floor(Math.random() * (9999 - 1000) + 1000)}` : payload.name
       const data = { name }
       axios.post('/sites', data)
         .then(result => resolve(result))

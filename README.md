@@ -42,25 +42,6 @@ To define cutom port, see [enviroments](#)
 ```
 
 ```bash
-STOREFRONT_CI_LOG_LEVEL=error # To define log level
-```
-> Level options allowed:
-> - error
-> - warn
-> - info
-> - http
-> - verbose
-> - debug
-> - silly
->
-> storefront-ci use winston to log, see more in [winston](https://github.com/winstonjs/winston).
-
-```bash
-STOREFRONT_CI_LOG_PATH=/path_to_write_log/
-```
-> storefront-ci saves the log to `storefront-ci.log`, if ` STOREFRONT_CI_LOG_PATH` is not defined, the log will be saved to the root path of storefront-ci
-
-```bash
 STOREFRONT_CI_JWT_TOKEN=XXXXXXX
 ```
 > It's a token used to create instance in Git Gateway. It's to be same configured in `GITGATEWAY_JWT_SECRET`  on Git Gateway environments and `GOTRUE_JWT_SECRET` on Gotrue environments

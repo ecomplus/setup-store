@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@octokit/rest": "^16.43.1",
+    "@octokit/rest": "^16.43.2",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "console-files": "^2.3.1",

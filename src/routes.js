@@ -1,13 +1,12 @@
 const express = require('express')
 const router = express.Router()
-
-const logger = require('./config/winston')
+const logger = require('console-files')
 
 const handler = (func) => (req, res) => {
   try {
     func(req, res)
-  } catch (e) {
-    logger.info(`Error: ${e}`)
+  } catch (err) {
+    logger.error(err)
     res.send('Oh no, something did not go well!')
   }
 }

@@ -33,32 +33,10 @@ After starting storefront-ci, it will be online at http://127.0.0.1:4000
 
 ## Environment
 
-It's necessary to configure environments to good work this service.
-
-It's environments to be stay in `.env` file, see environment options
-
 ```bash
-  STOREFRONT_CI_PORT=4000 # To make a custom port
+STOREFRONT_CI_PORT=4000
 ```
-
-```bash
-STOREFRONT_CI_LOG_LEVEL=error # To define log level
-```
-> Level options allowed:
-> - error
-> - warn
-> - info
-> - http
-> - verbose
-> - debug
-> - silly
->
-> storefront-ci use winston to log, see more in [winston](https://github.com/winstonjs/winston).
-
-```bash
-STOREFRONT_CI_LOG_PATH=/path_to_write_log/
-```
-> storefront-ci saves the log to `storefront-ci.log`, if ` STOREFRONT_CI_LOG_PATH` is not defined, the log will be saved to the root path of storefront-ci
+> Wep app TCP port number
 
 ```bash
 STOREFRONT_CI_JWT_TOKEN=XXXXXXX

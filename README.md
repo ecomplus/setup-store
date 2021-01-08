@@ -89,6 +89,11 @@ STOREFRONT_CI_GITGATEWAY_URL=https://mygitgateway
 > It's a custom Git Gateway url
 
 ```bash
+STOREFRONT_CI_GIT_GATEWAY_DB_PATH=/dbs/gitgateway.sqlite3
+```
+> Optional local SQLite3 database path to handle duplicated instances
+
+```bash
 STOREFRONT_CI_NETLIFY_URL=https://api.netlify.com/api/v1/
 ```
 > It's a netlify api url

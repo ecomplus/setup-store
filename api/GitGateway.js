@@ -1,5 +1,9 @@
+
 const logger = require('console-files')
 const uuid = require('uuid/v4')
+
+const sqlite3 = require('sqlite3').verbose()
+
 const axios = require('axios').create({
   baseURL: process.env.STOREFRONT_CI_GITGATEWAY_URL,
   headers: {
@@ -10,13 +14,40 @@ const axios = require('axios').create({
 class GitGateway {
   deploy (payload) {
     return new Promise((resolve, reject) => {
-      this.createInstance(payload)
+      this.removeOldInstance(payload)
+        .then(payload => this.createInstance(payload))
         .then(({ data }) => resolve(data))
-        .catch(({ response }) => {
-          const error = { step: 'git-gateway', error: response.data }
+        .catch((err) => {
+          const error = { step: 'git-gateway', error: err}
+          if (err && err.response) {
+            error.error = err.response.data
+          }
           logger.error(error)
           return reject(error)
         })
+    })
+  }
+
+  removeOldInstance(payload) {
+    return new Promise((resolve, reject) => {
+      if (!process.env.STOREFRONT_CI_GIT_GATEWAY_DB_PATH) {
+        return reject('ENV STOREFRONT_CI_GIT_GATEWAY_DB_PATH not found')
+      }
+      let db = new sqlite3.Database(process.env.STOREFRONT_CI_GIT_GATEWAY_DB_PATH, sqlite3.OPEN_READWRITE, (error) => {
+        if (error) {
+          return reject(error)
+        }
+      })
+
+      db.serialize(() => {
+        const sql = `DELETE FROM instances WHERE raw_base_config like '%"roles":["s${payload.gotrue.store_id}"]%'`
+        db.run(sql, {}, (error) => {
+          if (error) {
+            return reject(error)
+          }
+          resolve(payload)
+        })
+      })
     })
   }
 

@@ -107,7 +107,7 @@ STOREFRONT_CI_NETLIFY_TOKEN=xxxxxxxxxx
 STOREFRONT_CI_NETLIFY_GITHUB_INSTALATION_ID=xxxxxxxxxx
 ```
 > It is the installation ID of the netlify application on github.
-As we did not find an easy way to obtain this ID, we created a test repository and deployed it manually on the netlify website. After doing this, consume `https://api.netlify.com/api/v1/sites` using the netlify token, so that the sites created and the github installation number are returned via `instalation_id`
+As we did not find an easy way to obtain this ID, we created a test repository and deployed it manually on the netlify website. After doing this, consume `https://api.netlify.com/api/v1/sites` using the netlify token, so that the sites created and the github installation number are returned via `installation_id`
 
 ```bash
 STOREFRONT_CI_NETLIFY_BRANCH=dist
